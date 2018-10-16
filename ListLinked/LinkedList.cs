@@ -17,13 +17,19 @@ namespace LinkedList
 
         }
         private Node<T> _head;
+        private int _length { get; set; }
 
+        public LinkedList()
+        {
+            _length = 0;
+        }
 
         public void Add(T value)
         {
             if (_head == null)
             {
                 _head = new Node<T>(value);
+                _length++;
                 return;
             }
             var current = _head;
@@ -33,6 +39,7 @@ namespace LinkedList
             }
 
             current.next = new Node<T>(value);
+            _length++;
 
         }
 
@@ -49,19 +56,12 @@ namespace LinkedList
             var next = current.next;
             current.next = new Node<T>(value);
             current.next.next = next;
+            _length++;
         }
 
         public int Length()
         {
-            int length = 1;
-            var current = _head;
-            while (current.next != null)
-            {
-                current = current.next;
-                length++;
-            }
-
-            return length;
+            return _length;
         }
 
         public T RemoveAt(int index)
@@ -76,6 +76,7 @@ namespace LinkedList
 
             var removedNode = current.next;
             current.next = current.next.next;
+            _length--;
             return removedNode._value;
         }
 
@@ -91,7 +92,7 @@ namespace LinkedList
 
             return current._value;
         }
-        public void Remove()
+        public T Remove()
         {
             var current = _head;
 
@@ -99,8 +100,10 @@ namespace LinkedList
             {
                 current = current.next;
             }
-
+            var temp = current.next;
             current.next = null;
+            _length--;
+            return temp._value;
         }
 
 
