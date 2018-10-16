@@ -63,11 +63,12 @@ namespace LinkedListTests
             //act
             list.Add(0);
             list.Add(1);
-            list.Add(2);
-            list.Remove();
+            list.Add(2);         
             //assert
+            Assert.AreEqual(list.Remove(),2);
             Assert.AreEqual(list.Length(), 2);
             Assert.ThrowsException<NullReferenceException>(() => list.ElementAt(3));
+            
 
         }
         [TestMethod]

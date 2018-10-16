@@ -100,6 +100,7 @@ namespace LinkedList
             {
                 current = current.next;
             }
+
             var temp = current.next;
             current.next = null;
             _length--;
