@@ -8,7 +8,7 @@ namespace LinkedListTests
     public class LinkedListTest
     {
         [TestMethod]
-        public void AddedElemntShouldBeEqualToElementAtFirstIndex()
+        public void Add_when_add_one_item_then_should_be_equal_to_element_with_zero_index()
         {
             //arrange
             var list = new LinkedList<int>();
@@ -18,7 +18,7 @@ namespace LinkedListTests
             Assert.AreEqual(list.ElementAt(0), 1);
         }
         [TestMethod]
-        public void AddedElementShouldBeBetweenFirstAndSecond()
+        public void AddAt_when_add_new_item_then_item_index_should_be_between_previous_and_next()
         {
             //arrange
             var list = new LinkedList<int>();
@@ -30,7 +30,7 @@ namespace LinkedListTests
             Assert.AreEqual(list.ElementAt(1), 2);
         }
         [TestMethod]
-        public void ListLenghtShouldBeEqualFive()
+        public void Lenght_when_add_five_items_then_lenght_should_be_equal_five()
         {
             //arrange
             var list = new LinkedList<int>();
@@ -44,7 +44,7 @@ namespace LinkedListTests
             Assert.AreEqual(list.Length(), 5);
         }
         [TestMethod]
-        public void RemoveAtShouldReturnValueOfRemovedNode()
+        public void RemoveAt_when_remove_then_method_should_return_removedItem()
         {
             var list = new LinkedList<int>();
             //act
@@ -57,7 +57,7 @@ namespace LinkedListTests
             Assert.AreEqual(list.RemoveAt(4), 5);
         }
         [TestMethod]
-        public void RemoveShouldDeleteLastElementOfList()
+        public void Remove_when_delete_item_then_should_return_last_item_of_list()
         {
             var list = new LinkedList<int>();
             //act
@@ -72,7 +72,7 @@ namespace LinkedListTests
 
         }
         [TestMethod]
-        public void ElementAtFifthIndexShouldReturnTheFifthElementOfList()
+        public void ElementAt_when_get_item_with_5_index_then_should_return_value_of_element_that_is_fifth_in_list()
         {
             var list = new LinkedList<int>();
             //act

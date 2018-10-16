@@ -9,7 +9,7 @@ namespace LinkedList
         private class Node<T>
         {
             public T _value { get; private set; }
-            public Node<T> next { get; set; }
+            public Node<T> _next { get; set; }
             public Node(T value)
             {
                 _value = value;
@@ -33,12 +33,12 @@ namespace LinkedList
                 return;
             }
             var current = _head;
-            while (current.next != null)
+            while (current._next != null)
             {
-                current = current.next;
+                current = current._next;
             }
 
-            current.next = new Node<T>(value);
+            current._next = new Node<T>(value);
             _length++;
 
         }
@@ -49,13 +49,12 @@ namespace LinkedList
             int headPosition = 0;
             while (headPosition < index - 1)
             {
-                current = current.next;
+                current = current._next;
                 headPosition++;
             }
 
-            var next = current.next;
-            current.next = new Node<T>(value);
-            current.next.next = next;
+            var next = current._next;
+            current._next = new Node<T>(value) {_next = next};
             _length++;
         }
 
@@ -70,12 +69,12 @@ namespace LinkedList
             int headPosition = 0;
             while (headPosition < index - 1)
             {
-                current = current.next;
+                current = current._next;
                 headPosition++;
             }
 
-            var removedNode = current.next;
-            current.next = current.next.next;
+            var removedNode = current._next;
+            current._next = current._next._next;
             _length--;
             return removedNode._value;
         }
@@ -86,7 +85,7 @@ namespace LinkedList
             int headPosition = 0;
             while (headPosition < index)
             {
-                current = current.next;
+                current = current._next;
                 headPosition++;
             }
 
@@ -96,13 +95,13 @@ namespace LinkedList
         {
             var current = _head;
 
-            while (current.next.next != null)
+            while (current._next._next != null)
             {
-                current = current.next;
+                current = current._next;
             }
 
-            var temp = current.next;
-            current.next = null;
+            var temp = current._next;
+            current._next = null;
             _length--;
             return temp._value;
         }
@@ -115,7 +114,7 @@ namespace LinkedList
             while (current != null)
             {
                 yield return current._value;
-                current = current.next;
+                current = current._next;
             }
         }
 
