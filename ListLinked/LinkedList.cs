@@ -6,32 +6,20 @@ namespace LinkedList
     
     public  class LinkedList<T> : IEnumerable<T>
     {
-        private class Node<T>
-        {
-            public T _value { get; private set; }
-            public Node<T> _next { get; set; }
-            public Node(T value)
-            {
-                _value = value;
-            }
-
-        }
         private Node<T> _head;
-        private int _length { get; set; }
+        public int Length { get; private set; }
 
-        public LinkedList()
-        {
-            _length = 0;
-        }
+        public LinkedList() {  }
 
         public void Add(T value)
         {
             if (_head == null)
             {
                 _head = new Node<T>(value);
-                _length++;
+                Length++;
                 return;
             }
+
             var current = _head;
             while (current._next != null)
             {
@@ -39,8 +27,7 @@ namespace LinkedList
             }
 
             current._next = new Node<T>(value);
-            _length++;
-
+            Length++;
         }
 
         public void AddAt(int index, T value)
@@ -55,14 +42,9 @@ namespace LinkedList
 
             var next = current._next;
             current._next = new Node<T>(value) {_next = next};
-            _length++;
+            Length++;
         }
-
-        public int Length()
-        {
-            return _length;
-        }
-
+        
         public T RemoveAt(int index)
         {
             var current = _head;
@@ -75,7 +57,7 @@ namespace LinkedList
 
             var removedNode = current._next;
             current._next = current._next._next;
-            _length--;
+            Length--;
             return removedNode._value;
         }
 
@@ -91,10 +73,10 @@ namespace LinkedList
 
             return current._value;
         }
+
         public T Remove()
         {
             var current = _head;
-
             while (current._next._next != null)
             {
                 current = current._next;
@@ -102,11 +84,9 @@ namespace LinkedList
 
             var temp = current._next;
             current._next = null;
-            _length--;
+            Length--;
             return temp._value;
         }
-
-
 
         public IEnumerator<T> GetEnumerator()
         {
@@ -121,6 +101,16 @@ namespace LinkedList
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        private class Node<T>
+        {
+            public T _value { get; private set; }
+            public Node<T> _next { get; set; }
+            public Node(T value)
+            {
+                _value = value;
+            }
         }
     }
 }
