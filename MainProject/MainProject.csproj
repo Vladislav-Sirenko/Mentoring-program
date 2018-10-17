@@ -50,9 +50,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ListLinked\ListLinked.csproj">
-      <Project>{23e8b3b2-d6c2-45ea-92f2-e323fd8d584b}</Project>
-      <Name>ListLinked</Name>
+    <ProjectReference Include="..\DataStructures\DataStructures.csproj">
+      <Project>{6175bff8-65f7-42b9-add3-de95ec69a8b7}</Project>
+      <Name>DataStructures</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
