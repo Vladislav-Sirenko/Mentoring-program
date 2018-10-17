@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace LinkedList
@@ -9,6 +10,11 @@ namespace LinkedList
         private Node<T> _head;
         public int Length { get; private set; }
 
+        private Node<T> LastAdd { get; set; }
+        private Node<T> _current;
+
+     
+
         public LinkedList() {  }
 
         public void Add(T value)
@@ -17,85 +23,125 @@ namespace LinkedList
             {
                 _head = new Node<T>(value);
                 Length++;
+                LastAdd = _head;
+                _current = _head;
                 return;
             }
 
-            var current = _head;
-            while (current._next != null)
+            
+            while (_current._next != null)
             {
-                current = current._next;
+                _current = _current._next;
             }
 
-            current._next = new Node<T>(value);
+            _current._next = new Node<T>(value);
             Length++;
+            LastAdd = _current._next;
+            _current = _head;
+        }
+
+        public void Pop()
+        {
+            if (LastAdd == _head)
+            {
+                var currentNode = _head._next;
+                _head = currentNode;
+                LastAdd = _head;
+                _current = _head;
+                return;
+            }
+            
+            while (_current._next != LastAdd)
+            {
+                _current = _current._next;
+            }
+
+            LastAdd = _current;
+            _current._next = _current._next._next;
+            _current = _head;
+
+        }
+
+        public void Push(T value)
+        {
+            
+            var previous = new Node<T>(value);
+            _head = previous;
+            _head._next = _current;
+            LastAdd = _head;
+            _current = _head;
         }
 
         public void AddAt(int index, T value)
         {
-            var current = _head;
+            
             int headPosition = 0;
             while (headPosition < index - 1)
             {
-                current = current._next;
+                _current = _current._next;
                 headPosition++;
             }
 
-            var next = current._next;
-            current._next = new Node<T>(value) {_next = next};
+            var next = _current._next;
+            _current._next = new Node<T>(value) {_next = next};
             Length++;
+            LastAdd = _current._next;
+            _current =_head;
         }
         
         public T RemoveAt(int index)
         {
-            var current = _head;
+           
             int headPosition = 0;
             while (headPosition < index - 1)
             {
-                current = current._next;
+                _current = _current._next;
                 headPosition++;
             }
 
-            var removedNode = current._next;
-            current._next = current._next._next;
+            var removedNode = _current._next;
+            _current._next = _current._next._next;
             Length--;
+            _current = _head;
             return removedNode._value;
         }
 
         public T ElementAt(int index)
         {
-            var current = _head;
             int headPosition = 0;
             while (headPosition < index)
             {
-                current = current._next;
+                _current = _current._next;
                 headPosition++;
             }
-
-            return current._value;
+            var currentValue = _current._value;
+            _current = _head;
+            return currentValue;
         }
 
         public T Remove()
         {
-            var current = _head;
-            while (current._next._next != null)
+
+            while (_current._next._next != null)
             {
-                current = current._next;
+                _current = _current._next;
             }
 
-            var temp = current._next;
-            current._next = null;
+            var temp = _current._next;
+            _current._next = null;
             Length--;
+            _current = _head;
             return temp._value;
         }
 
         public IEnumerator<T> GetEnumerator()
         {
-            var current = _head;
-            while (current != null)
+            while (_current != null)
             {
-                yield return current._value;
-                current = current._next;
+                yield return _current._value;
+                _current = _current._next;
             }
+            _current = _head;
         }
 
         IEnumerator IEnumerable.GetEnumerator()

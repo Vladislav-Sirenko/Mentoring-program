@@ -15,6 +15,9 @@ namespace LinkedList
             linked.Add(2);
             linked.Add(3);
             linked.Add(4);
+            linked.AddAt(3,100);
+            linked.Pop();
+            linked.Pop();
             foreach (var vare in linked)
             {
                 Console.WriteLine(vare);

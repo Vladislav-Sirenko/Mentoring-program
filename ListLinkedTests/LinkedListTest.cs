@@ -88,7 +88,63 @@ namespace LinkedListTests
             Assert.AreEqual(last, 5);
 
         }
+        [TestMethod]
+        public void Pop_when_add_item_with_2_index_then_should_delete_last_add_element()
+        {
+            var list = new LinkedList<int>();
 
+            //act
+            AddMany(list, 1, 2, 3, 4, 5);
+            list.AddAt(2,100);
+            list.Pop();
+            //assert
+            
+            Assert.AreEqual(list.ElementAt(2), 3);
+
+        }
+        [TestMethod]
+        public void Push_when_add_item_then_should_add_item_at_top_of_list()
+        {
+            var list = new LinkedList<int>();
+
+            //act
+            AddMany(list, 1, 2, 3, 4, 5);
+            list.Push(25);
+            //assert
+
+            Assert.AreEqual(list.ElementAt(0), 25);
+
+        }
+        [TestMethod]
+        public void Pop_when_push_item_then_should_delete_head_element()
+        {
+            var list = new LinkedList<int>();
+
+            //act
+            AddMany(list, 1, 2, 3, 4, 5);
+            list.Push(100);
+            list.Pop();
+            //assert
+
+            Assert.AreEqual(list.ElementAt(0), 1);
+
+        }
+        [TestMethod]
+        public void Pop_when_call_2_times_then_should_delete_2_head_elements()
+        {
+            var list = new LinkedList<int>();
+
+            //act
+            AddMany(list, 1, 2, 3, 4, 5);
+            list.Push(0);
+            list.Pop();
+            list.Pop();
+            
+            //assert
+
+            Assert.AreEqual(list.ElementAt(0), 2);
+
+        }
         private void AddMany<T>(LinkedList<T> list, params T[] items)
         {
             foreach (var item in items)
