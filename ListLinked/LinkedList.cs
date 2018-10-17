@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace LinkedList
 {
@@ -12,6 +13,7 @@ namespace LinkedList
 
         private Node<T> LastAdd { get; set; }
         private Node<T> _current;
+        private int _headPosition;
 
      
 
@@ -75,11 +77,11 @@ namespace LinkedList
         public void AddAt(int index, T value)
         {
             
-            int headPosition = 0;
-            while (headPosition < index - 1)
+
+            while (_headPosition < index - 1)
             {
                 _current = _current._next;
-                headPosition++;
+                _headPosition++;
             }
 
             var next = _current._next;
@@ -87,33 +89,34 @@ namespace LinkedList
             Length++;
             LastAdd = _current._next;
             _current =_head;
+            _headPosition = 0;
         }
         
         public T RemoveAt(int index)
         {
-           
-            int headPosition = 0;
-            while (headPosition < index - 1)
+
+            while (_headPosition < index - 1)
             {
                 _current = _current._next;
-                headPosition++;
+                _headPosition++;
             }
 
             var removedNode = _current._next;
             _current._next = _current._next._next;
             Length--;
             _current = _head;
+            _headPosition = 0;
             return removedNode._value;
         }
 
         public T ElementAt(int index)
         {
-            int headPosition = 0;
-            while (headPosition < index)
+            while (_headPosition < index)
             {
                 _current = _current._next;
-                headPosition++;
+                _headPosition++;
             }
+
             var currentValue = _current._value;
             _current = _head;
             return currentValue;
@@ -141,6 +144,7 @@ namespace LinkedList
                 yield return _current._value;
                 _current = _current._next;
             }
+
             _current = _head;
         }
 

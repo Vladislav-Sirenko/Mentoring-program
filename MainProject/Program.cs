@@ -18,10 +18,12 @@ namespace LinkedList
             linked.AddAt(3,100);
             linked.Pop();
             linked.Pop();
+
             foreach (var vare in linked)
             {
                 Console.WriteLine(vare);
             }
+
             foreach (var vare in linked)
             {
                 Console.WriteLine(vare);
