@@ -90,7 +90,7 @@ namespace LinkedList
             {
                 _head = null;
                 Length--;
-                return current.Next.Value;
+                return current.Value;
             }
 
             var removedNode = current.Next;
@@ -142,7 +142,7 @@ namespace LinkedList
             var current = _head;
             while (current != null)
             {
-                yield return current.Next.Value;
+                yield return current.Value;
                 current = current.Next;
             }
 

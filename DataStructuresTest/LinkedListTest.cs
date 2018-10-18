@@ -11,11 +11,10 @@ namespace LinkedListTests
         public void Add_when_add_one_item_then_should_be_equal_to_element_with_zero_index()
         {
             //arrange
-            var list = new LinkedList<int>();
-            
+            var list = new LinkedList<int> {1};
+
             //act
-            list.Add(1);
-            
+
             //assert
             Assert.AreEqual(list.ElementAt(0), 1);
         }
