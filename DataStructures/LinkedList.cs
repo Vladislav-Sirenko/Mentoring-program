@@ -9,11 +9,11 @@ namespace LinkedList
     public class LinkedList<T> : IEnumerable<T>
     {
         private Node<T> _head;
+
         public int Length { get; private set; }
 
-        private Node<T> LastAdd { get; set; }
-        private Node<T> _current;
-        private int _headPosition;
+        private Node<T> _lastAdd { get; set; }
+
 
 
 
@@ -21,150 +21,130 @@ namespace LinkedList
 
         public void Add(T value)
         {
-
+            Node<T> current;
             if (_head == null)
             {
                 _head = new Node<T>(value);
                 Length++;
-                LastAdd = _head;
-                _current = _head;
+                _lastAdd = _head;
                 return;
             }
 
-            _current = _head;
-            while (_current._next != null)
+            current = _head;
+            while (current.Next != null)
             {
-                _current = _current._next;
+                current = current.Next;
             }
 
-            _current._next = new Node<T>(value);
+            current.Next = new Node<T>(value);
             Length++;
-            LastAdd = _current._next;
+            _lastAdd = current.Next;
 
         }
 
         public void Pop()
         {
-            _current = _head;
-            if (LastAdd == _head)
+            var current = _head;
+            if (_lastAdd == _head)
             {
-                var currentNode = _head._next;
+                var currentNode = _head.Next;
                 _head = currentNode;
-                LastAdd = _head;
-                _current = _head;
+                _lastAdd = _head;
                 Length--;
                 return;
             }
 
-            while (_current._next != LastAdd)
+            while (current.Next != _lastAdd)
             {
-                _current = _current._next;
+                current = current.Next;
             }
 
-            LastAdd = _current;
-            _current._next = _current._next._next;
+            _lastAdd = current;
+            current.Next = current.Next.Next;
             Length--;
-
-
         }
 
         public void Push(T value)
         {
-            _current = _head;
+            var current = _head;
             var previous = new Node<T>(value);
             _head = previous;
-            _head._next = _current;
-            LastAdd = _head;
+            _head.Next = current;
+            _lastAdd = _head;
             Length++;
-
         }
 
         public void AddAt(int index, T value)
         {
-            _current = _head;
-
-            while (_headPosition < index - 1)
-            {
-                _current = _current._next;
-                _headPosition++;
-            }
-
-            var next = _current._next;
-            _current._next = new Node<T>(value) { _next = next };
+            var current = GetByIndex(index - 1);
+            var next = current.Next;
+            current.Next = new Node<T>(value) { Next = next };
             Length++;
-            LastAdd = _current._next;
-
-            _headPosition = 0;
+            _lastAdd = current.Next;
         }
 
         public T RemoveAt(int index)
         {
-            _current = _head;
-           
-            while (_headPosition < index - 1)
-            {
-                _current = _current._next;
-                _headPosition++;
-            }
-            if (_current == _head)
+            var current = GetByIndex(index - 1);
+            if (current == _head)
             {
                 _head = null;
                 Length--;
-                return _current._value;
+                return current.Next.Value;
             }
-            var removedNode = _current._next;
-            _current._next = _current._next._next;
+
+            var removedNode = current.Next;
+            current.Next = current.Next.Next;
             Length--;
-            _headPosition = 0;
-            return removedNode._value;
+            return removedNode.Value;
         }
 
         public T ElementAt(int index)
         {
-            
-            _current = _head;
-            while (_headPosition < index)
+            return GetByIndex(index).Value;
+        }
+
+        private Node<T> GetByIndex(int index)
+        {
+            var current = _head;
+            int headPosition = 0;
+            while (headPosition < index)
             {
-                _current = _current._next;
-                _headPosition++;
+                current = current.Next;
+                headPosition++;
             }
 
-            var currentValue = _current._value;
-            _headPosition = 0;
-            return currentValue;
+            return current;
         }
 
         public T Remove()
         {
-            _current = _head;
-            if (_head._next == null)
+            var current = _head;
+            if (_head.Next == null)
             {
                 Length--;
                 _head = null;
-                return _current._value;
+                return current.Value;
             }
-            while (_current._next._next != null)
+            while (current.Next.Next != null)
             {
-                _current = _current._next;
+                current = current.Next;
             }
 
-            var temp = _current._next;
-            _current._next = null;
+            var temp = current.Next;
+            current.Next = null;
             Length--;
-
-            return temp._value;
+            return temp.Value;
         }
 
         public IEnumerator<T> GetEnumerator()
         {
-
-            _current = _head;
-            while (_current != null)
+            var current = _head;
+            while (current != null)
             {
-                yield return _current._value;
-                _current = _current._next;
+                yield return current.Next.Value;
+                current = current.Next;
             }
-
 
         }
 
@@ -175,12 +155,13 @@ namespace LinkedList
 
         private class Node<T>
         {
-            public T _value { get; private set; }
-            public Node<T> _next { get; set; }
+            public T Value { get; private set; }
+            public Node<T> Next { get; set; }
             public Node(T value)
             {
-                _value = value;
+                Value = value;
             }
+
         }
     }
 }

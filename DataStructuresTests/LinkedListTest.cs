@@ -88,6 +88,7 @@ namespace LinkedListTests
             Assert.AreEqual(last, 5);
 
         }
+
         [TestMethod]
         public void Pop_when_add_item_with_2_index_then_should_delete_last_add_element()
         {
@@ -102,6 +103,7 @@ namespace LinkedListTests
             Assert.AreEqual(list.ElementAt(2), 3);
 
         }
+
         [TestMethod]
         public void Push_when_add_item_then_should_add_item_at_top_of_list()
         {
@@ -115,6 +117,7 @@ namespace LinkedListTests
             Assert.AreEqual(list.ElementAt(0), 25);
 
         }
+
         [TestMethod]
         public void Pop_when_push_item_then_should_delete_head_element()
         {
@@ -129,6 +132,7 @@ namespace LinkedListTests
             Assert.AreEqual(list.ElementAt(0), 1);
 
         }
+
         [TestMethod]
         public void Pop_when_call_2_times_then_should_delete_2_head_elements()
         {
@@ -167,6 +171,7 @@ namespace LinkedListTests
             Assert.AreEqual(list.ElementAt(2),3);
 
         }
+
         private void AddMany<T>(LinkedList<T> list, params T[] items)
         {
             foreach (var item in items)
