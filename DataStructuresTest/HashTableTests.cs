@@ -15,7 +15,7 @@ namespace HashTableTests
             var hashTable = new HashTable();
 
             //act
-            hashTable.Add(1,1);
+            hashTable.Add(1, 1);
 
             //assert
             Assert.IsTrue(hashTable.Contains(1));
@@ -26,6 +26,7 @@ namespace HashTableTests
         {
             //arrange
             var hashTable = new HashTable();
+
             //act
             hashTable[1] = "one";
             hashTable[1] = null;
@@ -39,12 +40,12 @@ namespace HashTableTests
         {
             //arrange
             var hashTable = new HashTable();
+
             //act
             hashTable[1] = "one";
-            
 
             //assert
-            Assert.AreEqual(hashTable[1],"one");
+            Assert.AreEqual(hashTable[1], "one");
         }
 
         [TestMethod]
@@ -52,10 +53,12 @@ namespace HashTableTests
         {
             //arrange
             var hashTable = new HashTable();
+
             //act
-            hashTable.Add(1,"one");
+            hashTable.Add(1, "one");
+
             //assert
-            Assert.ThrowsException<DuplicateNameException>(()=> hashTable.Add(1, "two"));
+            Assert.ThrowsException<DuplicateNameException>(() => hashTable.Add(1, "two"));
         }
 
         [TestMethod]
@@ -63,7 +66,7 @@ namespace HashTableTests
         {
             //arrange
             var hashTable = new HashTable();
-            //act
+
             //assert
             Assert.ThrowsException<NullReferenceException>(() => hashTable.TryGet(1, out object obj));
         }
@@ -73,26 +76,29 @@ namespace HashTableTests
         {
             //arrange
             var hashTable = new HashTable();
+
             //act
             hashTable[0] = "zero";
-            hashTable.Add(1,"one");
-            object obj =new object();
+            hashTable.Add(1, "one");
+            object obj = new object();
             hashTable.TryGet(1, out obj);
 
             //assert
-            Assert.AreEqual(hashTable.Contains(1),true);
+            Assert.AreEqual(hashTable.Contains(1), true);
             Assert.AreEqual(obj, "one");
         }
+
         [TestMethod]
         public void Contains_when_check_item_that_not_exists_then_method_should_retrurn_false()
         {
             //arrange
             var hashTable = new HashTable();
+
             //act
             hashTable[0] = "zero";
+
             //assert
             Assert.AreEqual(hashTable.Contains(1), false);
         }
-
     }
 }
