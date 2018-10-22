@@ -10,100 +10,88 @@ namespace Hash_Table
 {
     public class HashTable : IHashTable
     {
-        private readonly LinkedList.LinkedList<KeyValue> _hashtable;
-        private class KeyValue
-        {
-            public int Key { get; private set; }
-            public object Value { get; set; }
+        private object[] _array;
+        public int Length => _array.Length;
 
-            public KeyValue(object key, object value)
-            {
-                Key = key.GetHashCode();
-                Value = value;
-            }
-        }
 
         public HashTable()
         {
-            _hashtable = new LinkedList.LinkedList<KeyValue>();
+            _array = new object[3];
         }
 
+        public int Hash(object key)
+        {
+            return key.GetHashCode() & 0x7fffffff % 10;
+        }
         public bool Contains(object key)
         {
-            foreach (var pair in _hashtable)
+            if (_array[Hash(key)] == null)
             {
-                if (pair.Key.Equals(key.GetHashCode()))
-                {
-                    return true;
-                }
+                return false;
             }
 
-            return false;
+            return true;
         }
 
         public void Add(object key, object value)
         {
-            foreach (var pair in _hashtable)
+            int index = Hash(key);
+            if (index > _array.Length - 1)
             {
-                if (pair.Key.Equals(key.GetHashCode()))
+                object[] temp = new object[index + 1];
+                for (int i = 0; i <= _array.Length - 1; i++)
                 {
-                    throw new DuplicateNameException();
+                    temp[i] = _array[i];
                 }
+
+                _array = temp;
             }
 
-            _hashtable.Add(new KeyValue(key, value));
+            if (_array[index] != null)
+            {
+                throw new DuplicateNameException();
+            }
+
+            _array[index] = value;
         }
 
         public object this[object key]
         {
-            get
-            {
-                TryGet(key, out object value);
-                return value;
-            }
+            get => _array[Hash(key)];
 
             set
             {
-                if (value == null)
+                int index = Hash(key);
+                if (index > _array.Length - 1)
                 {
-                    int position = 0;
-                    foreach (var pair in _hashtable)
+                    object[] temp = new object[index + 1];
+                    for (int i = 0; i <= _array.Length - 1; i++)
                     {
-                        if (pair.Key.Equals(key.GetHashCode()))
-                        {
-                            _hashtable.RemoveAt(position);
-                        }
-
-                        position++;
+                        temp[i] = _array[i];
                     }
 
-                    return;
+                    _array = temp;
+                    if (value == null)
+                    {
+                        _array[index] = null;
+                        return;
+                    }
                 }
 
-                if (_hashtable.Any(k => k.Key == key.GetHashCode()))
-                {
-                    _hashtable.First(k => k.Key == key.GetHashCode()).Value = value;
-
-                }
-
-                Add(key, value);
+                _array[index] = value;             
             }
         }
 
         public bool TryGet(object key, out object value)
         {
-            foreach (var pair in _hashtable)
+            int index = Hash(key);
+            if (_array[index]==null)
             {
-
-                if (pair.Key.Equals(key.GetHashCode()))
-                {
-                    value = pair.Value;
-                    return true;
-                }
+                throw new NullReferenceException();
             }
 
-            value = null;
-            throw new NullReferenceException();
+            value = _array[index];
+            return true;
         }
     }
 }

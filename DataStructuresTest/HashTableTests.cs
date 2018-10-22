@@ -100,5 +100,47 @@ namespace HashTableTests
             //assert
             Assert.AreEqual(hashTable.Contains(1), false);
         }
+
+        [TestMethod]
+        public void Setter_when_add_item_with_index_larger_than_array_size_then_arry_should_be_increased()
+        {
+            //arrange
+            var hashTable = new HashTable();
+
+            //act
+            hashTable[5] = "zero";
+
+            //assert
+            Assert.AreEqual(hashTable.Length, 6);
+        }
+
+        [TestMethod]
+        public void TryGet_when_get_item_with_null_value_than_method_should_throw_exception()
+        {
+            //arrange
+            var hashTable = new HashTable();
+
+            //act
+            hashTable[0] = 0;
+            hashTable[2] = 2;
+            hashTable[2] = null;
+
+            //assert
+            Assert.ThrowsException<NullReferenceException>(() => hashTable.TryGet(1,out object obj));
+        }
+
+        [TestMethod]
+        public void Add_when_add_item_with_index_larger_than_array_size_then_array_should_be_increased()
+        {
+            //arrange
+            var hashTable = new HashTable();
+
+            //act
+            hashTable[0] = 0;
+           hashTable.Add(5,5);
+
+            //assert
+            Assert.AreEqual(hashTable.Length,6);
+        }
     }
 }

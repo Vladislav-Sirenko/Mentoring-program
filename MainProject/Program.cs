@@ -21,12 +21,7 @@ namespace LinkedList
             foreach (var vare in linked)
             {
                 Console.WriteLine(vare);
-            }
-
-
-
+            }    
         }
-
-
     }
 }
