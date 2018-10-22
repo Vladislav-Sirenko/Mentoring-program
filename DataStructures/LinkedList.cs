@@ -12,89 +12,81 @@ namespace LinkedList
 
         public int Length { get; private set; }
 
-        private Node<T> _lastAdd { get; set; }
-
-
-
+        private Node<T> _tail { get; set; }
 
         public LinkedList() { }
 
         public void Add(T value)
         {
-            Node<T> current;
-            if (_head == null)
+            if (Length == 0)
             {
                 _head = new Node<T>(value);
                 Length++;
-                _lastAdd = _head;
+                _tail = _head;
                 return;
             }
 
-            current = _head;
-            while (current.Next != null)
-            {
-                current = current.Next;
-            }
+            _tail.Next = new Node<T>(value);
+            _tail = _tail.Next;
 
-            current.Next = new Node<T>(value);
             Length++;
-            _lastAdd = current.Next;
-
         }
 
-        public void Pop()
+        public T Pop()
         {
-            var current = _head;
-            if (_lastAdd == _head)
+            if (Length == 0)
             {
-                var currentNode = _head.Next;
-                _head = currentNode;
-                _lastAdd = _head;
+                throw new IndexOutOfRangeException();
+            }
+
+            if (Length == 1)
+            {
+                var currentValue = _head.Value;
                 Length--;
-                return;
+                _head = null;
+                return currentValue;
             }
-
-            while (current.Next != _lastAdd)
+            else
             {
-                current = current.Next;
+                var tailPrevious = _head;
+                while (tailPrevious.Next != _tail)
+                {
+                    tailPrevious = tailPrevious.Next;
+                }
+
+                _tail = tailPrevious;
+                tailPrevious.Next = null;
+                Length--;
+                return _tail.Value;
             }
-
-            _lastAdd = current;
-            current.Next = current.Next.Next;
-            Length--;
-        }
-
-        public void Push(T value)
-        {
-            var current = _head;
-            var previous = new Node<T>(value);
-            _head = previous;
-            _head.Next = current;
-            _lastAdd = _head;
-            Length++;
         }
 
         public void AddAt(int index, T value)
         {
-            var current = GetByIndex(index - 1);
-            var next = current.Next;
-            current.Next = new Node<T>(value) { Next = next };
+            var prev = GetByIndex(index - 1);
+            var next = prev.Next;
+            prev.Next = new Node<T>(value) { Next = next };
             Length++;
-            _lastAdd = current.Next;
         }
 
         public T RemoveAt(int index)
         {
-            var current = GetByIndex(index - 1);
-            if (current == _head)
+            if (Length == 0 || index > Length - 1)
             {
-                _head = null;
-                Length--;
-                return current.Next.Value;
+                throw new IndexOutOfRangeException();
             }
 
-            var removedNode = current.Next;
-            current.Next = current.Next.Next;
+            var prev = GetByIndex(index - 1);
+            if (prev == _head)
+            {
+                var itemToRemove = _head;
+                _head = _head.Next;
+                Length--;
+                return itemToRemove.Value;
+            }
+
+            var removedNode = prev.Next;
+            prev.Next = prev.Next.Next;
             Length--;
             return removedNode.Value;
         }
@@ -119,22 +111,25 @@ namespace LinkedList
 
         public T Remove()
         {
-            var current = _head;
-            if (_head.Next == null)
+            if (Length == 0)
             {
-                Length--;
-                _head = null;
-                return current.Value;
-            }
-            while (current.Next.Next != null)
-            {
-                current = current.Next;
+                throw new IndexOutOfRangeException();
             }
 
-            var temp = current.Next;
-            current.Next = null;
-            Length--;
-            return temp.Value;
+            if (Length == 1)
+            {
+                var current = _head.Value;
+                _head = null;
+                Length--;
+                return current;
+            }
+            else
+            {
+                var current = _head.Value;
+                _head = _head.Next;
+                Length--;
+                return current;
+            }
         }
 
         public IEnumerator<T> GetEnumerator()

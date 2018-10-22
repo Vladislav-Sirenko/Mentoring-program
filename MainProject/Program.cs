@@ -9,16 +9,10 @@ namespace LinkedList
     {
         static void Main(string[] args)
         {
-            LinkedList<int> linked = new LinkedList<int>();
-            linked.Add(0);
-            linked.Add(1);
-            linked.Add(2);
-            linked.Add(3);
-            linked.Add(4);
+            LinkedList<int> linked = new LinkedList<int> { 0, 1, 2, 3, 4 };
             linked.AddAt(3, 100);
             linked.Pop();
             linked.Pop();
-
             foreach (var vare in linked)
             {
                 Console.WriteLine(vare);
