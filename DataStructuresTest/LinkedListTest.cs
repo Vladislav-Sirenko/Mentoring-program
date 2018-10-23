@@ -1,5 +1,4 @@
-﻿using System;
-using LinkedList;
+﻿using DataStructures.LinkedList;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace LinkedListTests

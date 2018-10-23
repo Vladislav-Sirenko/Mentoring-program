@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-namespace LinkedList
+namespace DataStructures.LinkedList
 {
 
     public class LinkedList<T> : IEnumerable<T>

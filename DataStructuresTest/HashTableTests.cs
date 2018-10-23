@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Data;
-using Hash_Table;
+using DataStructures.HashTable;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace HashTableTests
@@ -111,7 +111,7 @@ namespace HashTableTests
             hashTable[5] = "zero";
 
             //assert
-            Assert.AreEqual(hashTable.Length, 6);
+            Assert.AreEqual(hashTable[5], "zero");
         }
 
         [TestMethod]
@@ -126,7 +126,7 @@ namespace HashTableTests
             hashTable[2] = null;
 
             //assert
-            Assert.ThrowsException<NullReferenceException>(() => hashTable.TryGet(1,out object obj));
+            Assert.ThrowsException<NullReferenceException>(() => hashTable.TryGet(1, out object obj));
         }
 
         [TestMethod]
@@ -137,10 +137,24 @@ namespace HashTableTests
 
             //act
             hashTable[0] = 0;
-           hashTable.Add(5,5);
+            hashTable.Add(5, 5);
 
             //assert
-            Assert.AreEqual(hashTable.Length,6);
+            Assert.AreEqual(hashTable[5], 5);
+        }
+
+        [TestMethod]
+        public void Add_when_add_item_with_null_value_and_try_get_item_with_index_larger_than_array_size_than_nothing_should_be_add()
+        {
+            //arrange
+            var hashTable = new HashTable();
+
+            //act
+            hashTable[1] = null;
+
+            //assert
+            Assert.IsFalse(hashTable.TryGet(5, out object obj));
+            Assert.IsNull(obj);
         }
     }
 }

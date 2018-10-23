@@ -1,22 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using LinkedList;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Hash_Table
+
+namespace DataStructures.HashTable
 {
     public class HashTable : IHashTable
     {
         private object[] _array;
-        public int Length => _array.Length;
 
+        private const int _defaultSize = 3;
 
         public HashTable()
         {
-            _array = new object[3];
+            _array = new object[_defaultSize];
         }
 
         public int Hash(object key)
@@ -36,6 +32,10 @@ namespace Hash_Table
         public void Add(object key, object value)
         {
             int index = Hash(key);
+            if (index <= _array.Length - 1 && _array[index] != null)
+            {
+                throw new DuplicateNameException();
+            }
             if (index > _array.Length - 1)
             {
                 object[] temp = new object[index + 1];
@@ -45,11 +45,6 @@ namespace Hash_Table
                 }
 
                 _array = temp;
-            }
-
-            if (_array[index] != null)
-            {
-                throw new DuplicateNameException();
             }
 
             _array[index] = value;
@@ -62,6 +57,10 @@ namespace Hash_Table
             set
             {
                 int index = Hash(key);
+                if (value == null && index > _array.Length - 1)
+                {
+                    return;
+                }
                 if (index > _array.Length - 1)
                 {
                     object[] temp = new object[index + 1];
@@ -71,21 +70,22 @@ namespace Hash_Table
                     }
 
                     _array = temp;
-                    if (value == null)
-                    {
-                        _array[index] = null;
-                        return;
-                    }
                 }
 
-                _array[index] = value;             
+                _array[index] = value;
             }
         }
 
         public bool TryGet(object key, out object value)
         {
             int index = Hash(key);
-            if (_array[index]==null)
+            if (index > _array.Length - 1)
+            {
+                value = null;
+                return false;
+            }
+
+            if (_array[index] == null)
             {
                 throw new NullReferenceException();
             }
