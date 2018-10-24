@@ -39,17 +39,17 @@ namespace DataStructures.HashTable
 
             if (index > _array.Length - 1)
             {
-                Copy(out _array, index);
+                Copy(_array, index);
             }
 
             _array[index] = value;
         }
 
-        public void Copy(out object[] array, int index)
+        public void Copy(object[] array, int index)
         {
             object[] temp = new object[index + 1];
             _array.CopyTo(temp, 0);
-            array = temp;
+            _array = temp;
         }
 
         public object this[object key]
@@ -66,7 +66,7 @@ namespace DataStructures.HashTable
                         return;
                     }
 
-                    Copy(out _array, index);
+                    Copy(_array, index);
                 }
 
                 _array[index] = value;

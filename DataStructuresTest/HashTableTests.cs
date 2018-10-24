@@ -8,8 +8,8 @@ namespace HashTableTests
     [TestClass]
     public class HashTableTests
     {
-        private const string _one = "one"; 
-        private const string _zero = "zero"; 
+        private const string FirstItem = "one"; 
+        private const string SecondItem = "zero"; 
             
         [TestMethod]
         public void Add_when_add_one_item_then_should_contain_this_item()
@@ -31,7 +31,7 @@ namespace HashTableTests
             var hashTable = new HashTable();
 
             //act
-            hashTable[1] = _one;
+            hashTable[1] = FirstItem;
             hashTable[1] = null;
 
             //assert
@@ -45,10 +45,10 @@ namespace HashTableTests
             var hashTable = new HashTable();
 
             //act
-            hashTable[1] = _one;
+            hashTable[1] = FirstItem;
 
             //assert
-            Assert.AreEqual(hashTable[1], _one);
+            Assert.AreEqual(hashTable[1], FirstItem);
         }
 
         [TestMethod]
@@ -58,10 +58,10 @@ namespace HashTableTests
             var hashTable = new HashTable();
 
             //act
-            hashTable.Add(1, _one);
+            hashTable.Add(1, FirstItem);
 
             //assert
-            Assert.ThrowsException<DuplicateNameException>(() => hashTable.Add(1, _zero));
+            Assert.ThrowsException<DuplicateNameException>(() => hashTable.Add(1, SecondItem));
         }
 
         [TestMethod]
@@ -81,14 +81,14 @@ namespace HashTableTests
             var hashTable = new HashTable();
 
             //act
-            hashTable[0] = _zero;
-            hashTable.Add(1, _one);
+            hashTable[0] = SecondItem;
+            hashTable.Add(1, FirstItem);
             object obj = new object();
             hashTable.TryGet(1, out obj);
 
             //assert
             Assert.AreEqual(hashTable.Contains(1), true);
-            Assert.AreEqual(obj, _one);
+            Assert.AreEqual(obj, FirstItem);
         }
 
         [TestMethod]
@@ -98,7 +98,7 @@ namespace HashTableTests
             var hashTable = new HashTable();
 
             //act
-            hashTable[0] = _zero;
+            hashTable[0] = SecondItem;
 
             //assert
             Assert.AreEqual(hashTable.Contains(1), false);
@@ -111,10 +111,10 @@ namespace HashTableTests
             var hashTable = new HashTable();
 
             //act
-            hashTable[5] = _zero;
+            hashTable[5] = SecondItem;
 
             //assert
-            Assert.AreEqual(hashTable[5], _zero);
+            Assert.AreEqual(hashTable[5], SecondItem);
         }
 
         [TestMethod]
