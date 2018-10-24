@@ -36,18 +36,20 @@ namespace DataStructures.HashTable
             {
                 throw new DuplicateNameException();
             }
+
             if (index > _array.Length - 1)
             {
-                object[] temp = new object[index + 1];
-                for (int i = 0; i <= _array.Length - 1; i++)
-                {
-                    temp[i] = _array[i];
-                }
-
-                _array = temp;
+                Copy(out _array, index);
             }
 
             _array[index] = value;
+        }
+
+        public void Copy(out object[] array, int index)
+        {
+            object[] temp = new object[index + 1];
+            _array.CopyTo(temp, 0);
+            array = temp;
         }
 
         public object this[object key]
@@ -57,19 +59,14 @@ namespace DataStructures.HashTable
             set
             {
                 int index = Hash(key);
-                if (value == null && index > _array.Length - 1)
-                {
-                    return;
-                }
                 if (index > _array.Length - 1)
                 {
-                    object[] temp = new object[index + 1];
-                    for (int i = 0; i <= _array.Length - 1; i++)
+                    if (value == null)
                     {
-                        temp[i] = _array[i];
+                        return;
                     }
 
-                    _array = temp;
+                    Copy(out _array, index);
                 }
 
                 _array[index] = value;
