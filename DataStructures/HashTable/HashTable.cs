@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Data;
 
 
@@ -6,13 +7,17 @@ namespace DataStructures.HashTable
 {
     public class HashTable : IHashTable
     {
-        private object[] _array;
+        private class ArrayValue
+        {
+            public object Value { get; set; }
+        }
+        private ArrayValue[] _array;
 
-        private const int _defaultSize = 3;
+        private const int DefaultSize = 3;
 
         public HashTable()
         {
-            _array = new object[_defaultSize];
+            _array = new ArrayValue[DefaultSize];
         }
 
         public int Hash(object key)
@@ -21,7 +26,8 @@ namespace DataStructures.HashTable
         }
         public bool Contains(object key)
         {
-            if (_array[Hash(key)] == null)
+            int index = Hash(key);
+            if (CheckForFull(index) || _array[index] == null)
             {
                 return false;
             }
@@ -32,62 +38,81 @@ namespace DataStructures.HashTable
         public void Add(object key, object value)
         {
             int index = Hash(key);
-            if (index <= _array.Length - 1 && _array[index] != null)
+            if (Contains(key))
             {
                 throw new DuplicateNameException();
             }
 
-            if (index > _array.Length - 1)
+            if (CheckForFull(index))
             {
-                Copy(_array, index);
+                _array = Resize(index + 1);
             }
 
-            _array[index] = value;
+            _array[index] = new ArrayValue();
+            _array[index].Value = value;
         }
 
-        public void Copy(object[] array, int index)
+        private bool CheckForFull(int index)
         {
-            object[] temp = new object[index + 1];
+            if (index > _array.Length)
+                return true;
+            return false;
+
+        }
+
+        private ArrayValue[] Resize(int size)
+        {
+            ArrayValue[] temp = new ArrayValue[size];
             _array.CopyTo(temp, 0);
-            _array = temp;
+            return temp;
         }
 
         public object this[object key]
         {
-            get => _array[Hash(key)];
-
+            get => CheckForFull(Hash(key)) ? null : _array[Hash(key)].Value;
             set
             {
-                int index = Hash(key);
-                if (index > _array.Length - 1)
+                if (value == null)
                 {
-                    if (value == null)
-                    {
-                        return;
-                    }
-
-                    Copy(_array, index);
+                    Remove(key);
                 }
 
-                _array[index] = value;
+                else if (Contains(key))
+                {
+                    _array[Hash(key)].Value = value;
+                }
+
+                else
+                {
+                    Add(key, value);
+                }
             }
+        }
+
+        public void Remove(object key)
+        {
+            if (Contains(key))
+            {
+                _array[Hash(key)] = null;
+            }
+
         }
 
         public bool TryGet(object key, out object value)
         {
             int index = Hash(key);
-            if (index > _array.Length - 1)
+            if (CheckForFull(index))
             {
                 value = null;
                 return false;
             }
 
-            if (_array[index] == null)
+            if (!Contains(key))
             {
                 throw new NullReferenceException();
             }
 
-            value = _array[index];
+            value = _array[index].Value;
             return true;
         }
     }
