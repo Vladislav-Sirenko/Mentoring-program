@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-namespace LinkedList
+namespace DataStructures.LinkedList
 {
 
     public class LinkedList<T> : IEnumerable<T>
@@ -137,7 +137,7 @@ namespace LinkedList
             var current = _head;
             while (current != null)
             {
-                yield return current.Next.Value;
+                yield return current.Value;
                 current = current.Next;
             }
 

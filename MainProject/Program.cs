@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DataStructures.LinkedList;
 
-namespace LinkedList
+namespace DataStructures.MainProject
 {
     class Program
     {
@@ -21,12 +19,7 @@ namespace LinkedList
             foreach (var vare in linked)
             {
                 Console.WriteLine(vare);
-            }
-
-
-
+            }    
         }
-
-
     }
 }

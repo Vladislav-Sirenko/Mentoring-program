@@ -1,5 +1,4 @@
-﻿using System;
-using LinkedList;
+﻿using DataStructures.LinkedList;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace LinkedListTests
@@ -10,7 +9,7 @@ namespace LinkedListTests
         [TestMethod]
         public void Add_when_add_one_item_then_should_be_equal_to_element_with_zero_index()
         {
-            //arrange
+            //arrang
             var list = new LinkedList<int> { 1 };
 
             //assert
