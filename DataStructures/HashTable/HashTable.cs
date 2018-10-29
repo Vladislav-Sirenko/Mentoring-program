@@ -6,18 +6,14 @@ using System.Data;
 namespace DataStructures.HashTable
 {
     public class HashTable : IHashTable
-    {
-        private class ArrayValue
-        {
-            public object Value { get; set; }
-        }
-        private ArrayValue[] _array;
+    { 
+        private HashTableItem[] _array;
 
         private const int DefaultSize = 3;
 
         public HashTable()
         {
-            _array = new ArrayValue[DefaultSize];
+            _array = new HashTableItem[DefaultSize];
         }
 
         public int Hash(object key)
@@ -27,7 +23,7 @@ namespace DataStructures.HashTable
         public bool Contains(object key)
         {
             int index = Hash(key);
-            if (CheckForFull(index) || _array[index] == null)
+            if (IsResizeRequired(index) || _array[index] == null)
             {
                 return false;
             }
@@ -43,33 +39,32 @@ namespace DataStructures.HashTable
                 throw new DuplicateNameException();
             }
 
-            if (CheckForFull(index))
+            if (IsResizeRequired(index))
             {
                 _array = Resize(index + 1);
             }
 
-            _array[index] = new ArrayValue();
+            _array[index] = new HashTableItem();
             _array[index].Value = value;
         }
 
-        private bool CheckForFull(int index)
+        private bool IsResizeRequired(int index)
         {
-            if (index > _array.Length)
+            if (index >= _array.Length)
                 return true;
             return false;
-
         }
 
-        private ArrayValue[] Resize(int size)
+        private HashTableItem[] Resize(int size)
         {
-            ArrayValue[] temp = new ArrayValue[size];
+            HashTableItem[] temp = new HashTableItem[size];
             _array.CopyTo(temp, 0);
             return temp;
         }
 
         public object this[object key]
         {
-            get => CheckForFull(Hash(key)) ? null : _array[Hash(key)].Value;
+            get => IsResizeRequired(Hash(key)) ? null : _array[Hash(key)].Value;
             set
             {
                 if (value == null)
@@ -95,13 +90,12 @@ namespace DataStructures.HashTable
             {
                 _array[Hash(key)] = null;
             }
-
         }
 
         public bool TryGet(object key, out object value)
         {
             int index = Hash(key);
-            if (CheckForFull(index))
+            if (IsResizeRequired(index))
             {
                 value = null;
                 return false;
@@ -109,11 +103,16 @@ namespace DataStructures.HashTable
 
             if (!Contains(key))
             {
-                throw new NullReferenceException();
+                value = null;
+                return false;
             }
 
             value = _array[index].Value;
             return true;
+        }
+        private class HashTableItem
+        {
+            public object Value { get; set; }
         }
     }
 }

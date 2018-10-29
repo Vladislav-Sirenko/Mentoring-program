@@ -35,7 +35,7 @@ namespace HashTableTests
             hashTable[1] = null;
 
             //assert
-            Assert.ThrowsException<NullReferenceException>(() => hashTable.TryGet(1, out object obj));
+            Assert.IsFalse(hashTable.TryGet(1, out object obj));
         }
 
         [TestMethod]
@@ -71,7 +71,7 @@ namespace HashTableTests
             var hashTable = new HashTable();
 
             //assert
-            Assert.ThrowsException<NullReferenceException>(() => hashTable.TryGet(1, out object obj));
+            Assert.IsFalse(hashTable.TryGet(1, out object obj));
         }
 
         [TestMethod]
@@ -129,7 +129,7 @@ namespace HashTableTests
             hashTable[2] = null;
 
             //assert
-            Assert.ThrowsException<NullReferenceException>(() => hashTable.TryGet(1, out object obj));
+            Assert.IsFalse(hashTable.TryGet(1, out object obj));
         }
 
         [TestMethod]
